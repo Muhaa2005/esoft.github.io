@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #222;
+    line-height: 1.6;
+}
+
+header {
+    background: #071a2d;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    max-width: 1200px;
+    margin: auto;
+    padding: 18px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav h2 {
+    color: #00d4ff;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #00d4ff;
+}
+
+.hero {
+    min-height: 90vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 40px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #071a2d,
+        #123e63,
+        #007b9e
+    );
+
+    color: white;
+}
+
+.hero h1 {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 24px;
+}
+
+.hero .intro {
+    max-width: 700px;
+    margin: 20px auto;
+    font-size: 17px;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 28px;
+
+    background: #00d4ff;
+    color: #071a2d;
+
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 80px 25px;
+}
+
+section h2 {
+    text-align: center;
+    font-size: 35px;
+    margin-bottom: 40px;
+    color: #071a2d;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+.card h3 {
+    color: #006b8f;
+    margin-bottom: 12px;
+}
+
+.protection-list {
+    max-width: 800px;
+    margin: auto;
+}
+
+.protection-list p {
+    background: white;
+    margin: 12px 0;
+    padding: 18px;
+    border-radius: 8px;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.future {
+    max-width: none;
+    text-align: center;
+    background: #071a2d;
+    color: white;
+}
+
+.future h2 {
+    color: white;
+}
+
+.future p {
+    margin: 15px;
+    font-size: 18px;
+}
+
+footer {
+    background: #030c15;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+@media (max-width: 768px) {
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        padding: 55px 20px;
+    }
+}
