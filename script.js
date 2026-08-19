@@ -10,7 +10,7 @@ let questionCount = 0;
 // Default Admin Credentials
 const adminCredentials = {
     email: 'admin@exam.com',
-    password: 'admin123'
+    password: 'muhaa12345'
 };
 
 // =============== UTILITY FUNCTIONS ===============
