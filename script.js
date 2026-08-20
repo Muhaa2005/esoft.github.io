@@ -8,20 +8,11 @@ let examTimer = null;
 let questionCount = 0;
 
 // Default Admin Credentials
-const ADMIN_EMAIL = "admin@exam.com";
-const ADMIN_PASSWORD = "muhaa12345";
+const adminCredentials = {
+    email:""
+    password:""
 
-function adminLogin() {
-    const email = document.getElementById("adminEmail").value.trim();
-    const password = document.getElementById("adminPassword").value;
 
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        alert("Admin Login Successful!");
-        // Show admin dashboard
-    } else {
-        alert("Invalid admin email or password!");
-    }
-}
 // =============== UTILITY FUNCTIONS ===============
 function toggleSection(sectionId) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
