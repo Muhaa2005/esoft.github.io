@@ -45,8 +45,8 @@ function formatDate(date) {
 document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const email = document.getElementById('adminEmail').value;
-    const password = document.getElementById('adminPassword').value;
+    const email = document.getElementById('adminEmail').value = "admin@exam.com";
+    const password = document.getElementById('adminPassword').value = "muhaa12345";
     
     if (email === adminCredentials.email && password === adminCredentials.password) {
         currentAdmin = { email, isAdmin: true };
