@@ -1,831 +1,2596 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Exam Platform</title>
+<title>Student Exam Platform</title>
 
-    <link rel="stylesheet" href="styles.css">
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+    padding:30px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom:20px;
+}
+
+h1{
+    color:#333;
+    margin-bottom:10px;
+}
+
+h2{
+    color:#444;
+    margin-bottom:20px;
+}
+
+h3{
+    color:#555;
+    margin-bottom:15px;
+}
+
+.subtitle{
+    color:#777;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+    color:#444;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.btn{
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    margin:5px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.btn:hover{
+    opacity:.85;
+}
+
+.btn-primary{
+    background:#667eea;
+    color:white;
+}
+
+.btn-success{
+    background:#28a745;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc3545;
+    color:white;
+}
+
+.btn-info{
+    background:#17a2b8;
+    color:white;
+}
+
+.btn-warning{
+    background:#ffc107;
+    color:#222;
+}
+
+.success{
+    background:#d4edda;
+    color:#155724;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.error{
+    background:#f8d7da;
+    color:#721c24;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.dashboard-header{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.student-info{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.student-info p{
+    background:#f5f5f5;
+    padding:15px;
+    border-radius:8px;
+}
+
+.tabs{
+    display:flex;
+    gap:10px;
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.tab-btn{
+    padding:12px 20px;
+    border:none;
+    background:#eee;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.tab-btn.active{
+    background:#667eea;
+    color:white;
+}
+
+.tab-content{
+    display:none;
+}
+
+.tab-content.active{
+    display:block;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.table th,
+.table td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:left;
+}
+
+.table th{
+    background:#667eea;
+    color:white;
+}
+
+.table tr:nth-child(even){
+    background:#f8f8f8;
+}
+
+.exam-card{
+    background:#f8f9fa;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:15px;
+    border-left:5px solid #667eea;
+}
+
+.exam-card:hover{
+    background:#eef0ff;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.status.pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.status.completed{
+    background:#d4edda;
+    color:#155724;
+}
+
+.question-block{
+    background:#f8f9fa;
+    padding:20px;
+    border-radius:10px;
+    margin:20px 0;
+    border-left:5px solid #667eea;
+}
+
+.option-input{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:10px 0;
+}
+
+.option-input input[type="text"]{
+    flex:1;
+}
+
+.option-input input[type="radio"]{
+    width:auto;
+}
+
+.remove-question{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.exam-container{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+}
+
+.exam-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    padding-bottom:20px;
+    border-bottom:2px solid #eee;
+}
+
+.timer-box{
+    background:#222;
+    color:white;
+    padding:15px 25px;
+    border-radius:10px;
+    text-align:center;
+}
+
+#timer{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.question{
+    background:#f8f9fa;
+    padding:25px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.question-text{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.question-number{
+    color:#667eea;
+}
+
+.option{
+    background:white;
+    padding:12px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.option:hover{
+    background:#eef0ff;
+}
+
+.option input{
+    width:auto;
+    margin-right:10px;
+}
+
+.result-box{
+    background:#f8f9fa;
+    padding:25px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.result-box p{
+    padding:10px;
+    font-size:18px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.6);
+}
+
+.modal.show{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    width:90%;
+    max-width:700px;
+    padding:30px;
+    border-radius:15px;
+    position:relative;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.close{
+    position:absolute;
+    right:20px;
+    top:10px;
+    font-size:30px;
+    cursor:pointer;
+}
+
+@media(max-width:700px){
+
+    body{
+        padding:10px;
+    }
+
+    .student-info{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-header,
+    .exam-header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .tabs{
+        flex-direction:column;
+    }
+
+    .table{
+        font-size:12px;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- ================= ADMIN LOGIN ================= -->
-    <div id="adminLoginSection" class="section active">
+<!-- ================= ADMIN LOGIN ================= -->
 
-        <div class="card">
+<div id="adminLoginSection" class="section active">
 
-            <h1>🔐 Admin Login</h1>
-            <p class="subtitle">Administrator Access Only</p>
+<div class="card">
 
-            <form id="adminLoginForm">
+<h1>🔐 Admin Login</h1>
 
-                <div class="form-group">
-                    <label for="adminEmail">Admin Email:</label>
+<p class="subtitle">
+Administrator Access Only
+</p>
 
-                    <input
-                        type="email"
-                        id="adminEmail"
-                        placeholder="Enter admin email"
-                        required
-                    >
-                </div>
+<form id="adminLoginForm">
 
-                <div class="form-group">
-                    <label for="adminPassword">Password:</label>
+<div class="form-group">
+<label>Admin Email</label>
 
-                    <input
-                        type="password"
-                        id="adminPassword"
-                        placeholder="Enter admin password"
-                        required
-                    >
-                </div>
+<input
+type="email"
+id="adminEmail"
+placeholder="Enter admin email"
+required>
+</div>
 
-                <button type="submit" class="btn btn-primary">
-                    🔐 Admin Login
-                </button>
+<div class="form-group">
+<label>Password</label>
 
-            </form>
+<input
+type="password"
+id="adminPassword"
+placeholder="Enter admin password"
+required>
+</div>
 
-            <br>
+<button
+type="submit"
+class="btn btn-primary">
 
-            <button
-                type="button"
-                class="btn btn-info"
-                onclick="toggleSection('loginSection')">
-                🎓 Student Login
-            </button>
+🔐 Admin Login
 
-        </div>
+</button>
 
-    </div>
+</form>
 
+<br>
 
-    <!-- ================= STUDENT LOGIN ================= -->
-    <div id="loginSection" class="section">
+<button
+class="btn btn-info"
+onclick="toggleSection('loginSection')">
 
-        <div class="card">
+🎓 Student Login
 
-            <h1>🎓 Student Login</h1>
+</button>
 
-            <p class="subtitle">
-                Login to access your examination dashboard
-            </p>
-
-            <form id="loginForm">
-
-                <div class="form-group">
-
-                    <label for="loginEmail">
-                        Email:
-                    </label>
-
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        placeholder="Enter your email"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="loginPassword">
-                        Password:
-                    </label>
-
-                    <input
-                        type="password"
-                        id="loginPassword"
-                        placeholder="Enter your password"
-                        required
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    🔐 Login
-                </button>
-
-            </form>
-
-
-            <p style="text-align:center; margin-top:20px;">
-                Don't have an account?
-            </p>
-
-
-            <button
-                type="button"
-                class="btn btn-success"
-                onclick="toggleSection('registerSection')">
-
-                📝 Register Now
-
-            </button>
-
-
-            <br><br>
-
-
-            <button
-                type="button"
-                class="btn btn-info"
-                onclick="toggleSection('adminLoginSection')">
-
-                🔐 Admin Login
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= STUDENT REGISTRATION ================= -->
-    <div id="registerSection" class="section">
-
-        <div class="card">
-
-            <h1>📝 Student Registration</h1>
-
-            <p class="subtitle">
-                Create your student account
-            </p>
-
-
-            <form id="registerForm">
-
-                <div class="form-group">
-
-                    <label for="firstName">
-                        First Name:
-                    </label>
-
-                    <input
-                        type="text"
-                        id="firstName"
-                        placeholder="Enter first name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="lastName">
-                        Last Name:
-                    </label>
-
-                    <input
-                        type="text"
-                        id="lastName"
-                        placeholder="Enter last name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="regEmail">
-                        Email:
-                    </label>
-
-                    <input
-                        type="email"
-                        id="regEmail"
-                        placeholder="Enter email"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="regPassword">
-                        Password:
-                    </label>
-
-                    <input
-                        type="password"
-                        id="regPassword"
-                        placeholder="Create password"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="phone">
-                        Phone Number:
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        placeholder="Enter phone number"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="dob">
-                        Date of Birth:
-                    </label>
-
-                    <input
-                        type="date"
-                        id="dob"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="uniRegNum">
-                        University Registration Number:
-                    </label>
-
-                    <input
-                        type="text"
-                        id="uniRegNum"
-                        placeholder="Enter university registration number"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="address">
-                        Address:
-                    </label>
-
-                    <textarea
-                        id="address"
-                        placeholder="Enter your address"
-                        required
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="city">
-                        City:
-                    </label>
-
-                    <input
-                        type="text"
-                        id="city"
-                        placeholder="Enter city"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="state">
-                        State:
-                    </label>
-
-                    <input
-                        type="text"
-                        id="state"
-                        placeholder="Enter state"
-                        required
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-
-                    📝 Create Account
-
-                </button>
-
-
-                <br><br>
-
-
-                <button
-                    type="button"
-                    class="btn btn-info"
-                    onclick="toggleSection('loginSection')">
-
-                    🔐 Back to Login
-
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= STUDENT DASHBOARD ================= -->
-    <div id="dashboardSection" class="section">
-
-        <div class="dashboard">
-
-            <div class="dashboard-header">
-
-                <div>
-
-                    <h1>
-                        🎓 Student Dashboard
-                    </h1>
-
-                    <h2>
-                        Welcome,
-                        <span id="studentName"></span>
-                    </h2>
-
-                </div>
-
-                <button
-                    class="btn btn-danger"
-                    onclick="logout()">
-
-                    🚪 Logout
-
-                </button>
-
-            </div>
-
-
-            <!-- Student Information -->
-
-            <div class="card">
-
-                <h2>👤 Student Information</h2>
-
-                <div class="student-info">
-
-                    <p>
-                        <strong>Email:</strong>
-                        <span id="infoEmail"></span>
-                    </p>
-
-                    <p>
-                        <strong>University Reg No:</strong>
-                        <span id="infoUniReg"></span>
-                    </p>
-
-                    <p>
-                        <strong>Phone:</strong>
-                        <span id="infoPhone"></span>
-                    </p>
-
-                    <p>
-                        <strong>Date of Birth:</strong>
-                        <span id="infoDOB"></span>
-                    </p>
-
-                    <p>
-                        <strong>Address:</strong>
-                        <span id="infoAddress"></span>
-                    </p>
-
-                    <p>
-                        <strong>City:</strong>
-                        <span id="infoCity"></span>
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- Available Exams -->
-
-            <div class="card">
-
-                <h2>📚 Available Exams</h2>
-
-                <div id="examsList"></div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= ADMIN DASHBOARD ================= -->
-    <div id="adminDashboardSection" class="section">
-
-        <div class="dashboard">
-
-            <div class="dashboard-header">
-
-                <div>
-
-                    <h1>
-                        🛡️ Admin Dashboard
-                    </h1>
-
-                    <p>
-                        Student Examination Management System
-                    </p>
-
-                </div>
-
-
-                <button
-                    class="btn btn-danger"
-                    onclick="adminLogout()">
-
-                    🚪 Logout
-
-                </button>
-
-            </div>
-
-
-            <!-- Admin Navigation -->
-
-            <div class="tabs">
-
-                <button
-                    class="tab-btn active"
-                    onclick="showAdminTab('students')">
-
-                    👨‍🎓 Students
-
-                </button>
-
-
-                <button
-                    class="tab-btn"
-                    onclick="showAdminTab('exams')">
-
-                    📝 Create Exam
-
-                </button>
-
-
-                <button
-                    class="tab-btn"
-                    onclick="showAdminTab('results')">
-
-                    📊 Results
-
-                </button>
-
-            </div>
-
-
-            <!-- STUDENTS TAB -->
-
-            <div
-                id="studentsTab"
-                class="tab-content active">
-
-                <div class="card">
-
-                    <h2>👨‍🎓 Registered Students</h2>
-
-                    <div id="studentsList"></div>
-
-                </div>
-
-            </div>
-
-
-            <!-- EXAMS TAB -->
-
-            <div
-                id="examsTab"
-                class="tab-content">
-
-                <div class="card">
-
-                    <h2>📝 Create New Exam</h2>
-
-
-                    <div class="form-group">
-
-                        <label for="examTitle">
-                            Exam Title:
-                        </label>
-
-                        <input
-                            type="text"
-                            id="examTitle"
-                            placeholder="Enter exam title"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="examDescription">
-                            Description:
-                        </label>
-
-                        <textarea
-                            id="examDescription"
-                            placeholder="Enter exam description"
-                        ></textarea>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="examDuration">
-                            Duration (Minutes):
-                        </label>
-
-                        <input
-                            type="number"
-                            id="examDuration"
-                            value="30"
-                            min="1"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="examPassingScore">
-                            Passing Score (%):
-                        </label>
-
-                        <input
-                            type="number"
-                            id="examPassingScore"
-                            value="60"
-                            min="1"
-                            max="100"
-                        >
-
-                    </div>
-
-
-                    <h3>📚 Questions</h3>
-
-
-                    <div id="questionsForm"></div>
-
-
-                    <button
-                        type="button"
-                        class="btn btn-info"
-                        onclick="addQuestionForm()">
-
-                        ➕ Add Question
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="btn btn-success"
-                        onclick="saveExam()">
-
-                        💾 Save Exam
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- RESULTS TAB -->
-
-            <div
-                id="resultsTab"
-                class="tab-content">
-
-                <div class="card">
-
-                    <h2>📊 Examination Results</h2>
-
-                    <div id="resultsList"></div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= EXAM SECTION ================= -->
-    <div id="examSection" class="section">
-
-        <div class="exam-container">
-
-            <div class="exam-header">
-
-                <div>
-
-                    <h1 id="examTitle">
-                        Examination
-                    </h1>
-
-                    <p>
-                        Answer all questions carefully.
-                    </p>
-
-                </div>
-
-
-                <div class="timer-box">
-
-                    ⏱️ Time Remaining
-
-                    <div id="timer">
-                        00:00
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <form id="examForm">
-
-                <div id="questionsContainer"></div>
-
-
-                <button
-                    type="submit"
-                    class="btn btn-success">
-
-                    ✅ Submit Exam
-
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= RESULTS SECTION ================= -->
-    <div id="resultsSection" class="section">
-
-        <div class="card">
-
-            <h1>📊 Examination Result</h1>
-
-
-            <div class="result-box">
-
-                <h2 id="resultExamName">
-                    Exam
-                </h2>
-
-
-                <p>
-
-                    <strong>Score:</strong>
-
-                    <span id="resultScore"></span>
-
-                </p>
-
-
-                <p>
-
-                    <strong>Percentage:</strong>
-
-                    <span id="resultPercentage"></span>
-
-                </p>
-
-
-                <p>
-
-                    <strong>Status:</strong>
-
-                    <span id="resultStatus"></span>
-
-                </p>
-
-
-                <p>
-
-                    <strong>Date:</strong>
-
-                    <span id="resultDate"></span>
-
-                </p>
-
-            </div>
-
-
-            <button
-                class="btn btn-primary"
-                onclick="goBackToDashboard()">
-
-                🏠 Back to Dashboard
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= STUDENT DETAILS MODAL ================= -->
-    <div
-        id="studentDetailsModal"
-        class="modal">
-
-        <div class="modal-content">
-
-            <span
-                class="close"
-                onclick="closeStudentModal()">
-
-                &times;
-
-            </span>
-
-
-            <h2>
-                👤 Student Details
-            </h2>
-
-
-            <div id="studentDetailsContent"></div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= RESULT DETAILS MODAL ================= -->
-    <div
-        id="resultsDetailsModal"
-        class="modal">
-
-        <div class="modal-content">
-
-            <span
-                class="close"
-                onclick="closeResultsModal()">
-
-                &times;
-
-            </span>
-
-
-            <h2>
-                📊 Result Details
-            </h2>
-
-
-            <div id="resultsDetailsContent"></div>
-
-        </div>
-
-    </div>
-
+</div>
 
 </div>
 
 
-<!-- ================= JAVASCRIPT ================= -->
+<!-- ================= STUDENT LOGIN ================= -->
 
-<script src="script.js"></script>
+<div id="loginSection" class="section">
+
+<div class="card">
+
+<h1>🎓 Student Login</h1>
+
+<p class="subtitle">
+Login to access your exam dashboard
+</p>
+
+<form id="loginForm">
+
+<div class="form-group">
+
+<label>Email</label>
+
+<input
+type="email"
+id="loginEmail"
+placeholder="Enter your email"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Password</label>
+
+<input
+type="password"
+id="loginPassword"
+placeholder="Enter your password"
+required>
+
+</div>
+
+<button
+type="submit"
+class="btn btn-primary">
+
+🔐 Login
+
+</button>
+
+</form>
+
+<br>
+
+<button
+class="btn btn-success"
+onclick="toggleSection('registerSection')">
+
+📝 Register
+
+</button>
+
+<button
+class="btn btn-info"
+onclick="toggleSection('adminLoginSection')">
+
+🔐 Admin Login
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= REGISTER ================= -->
+
+<div id="registerSection" class="section">
+
+<div class="card">
+
+<h1>📝 Student Registration</h1>
+
+<form id="registerForm">
+
+<div class="form-group">
+<label>First Name</label>
+<input type="text" id="firstName" required>
+</div>
+
+<div class="form-group">
+<label>Last Name</label>
+<input type="text" id="lastName" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="regEmail" required>
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="regPassword" required>
+</div>
+
+<div class="form-group">
+<label>Phone</label>
+<input type="tel" id="phone" required>
+</div>
+
+<div class="form-group">
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+</div>
+
+<div class="form-group">
+<label>University Registration Number</label>
+<input type="text" id="uniRegNum" required>
+</div>
+
+<div class="form-group">
+<label>Address</label>
+<textarea id="address" required></textarea>
+</div>
+
+<div class="form-group">
+<label>City</label>
+<input type="text" id="city" required>
+</div>
+
+<div class="form-group">
+<label>State</label>
+<input type="text" id="state" required>
+</div>
+
+<button
+type="submit"
+class="btn btn-success">
+
+📝 Create Account
+
+</button>
+
+<button
+type="button"
+class="btn btn-info"
+onclick="toggleSection('loginSection')">
+
+🔐 Back to Login
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- ================= STUDENT DASHBOARD ================= -->
+
+<div id="dashboardSection" class="section">
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>🎓 Student Dashboard</h1>
+
+<h2>
+Welcome,
+<span id="studentName"></span>
+</h2>
+
+</div>
+
+<button
+class="btn btn-danger"
+onclick="logout()">
+
+🚪 Logout
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>👤 Student Information</h2>
+
+<div class="student-info">
+
+<p>
+<strong>Email:</strong>
+<span id="infoEmail"></span>
+</p>
+
+<p>
+<strong>University Reg No:</strong>
+<span id="infoUniReg"></span>
+</p>
+
+<p>
+<strong>Phone:</strong>
+<span id="infoPhone"></span>
+</p>
+
+<p>
+<strong>Date of Birth:</strong>
+<span id="infoDOB"></span>
+</p>
+
+<p>
+<strong>Address:</strong>
+<span id="infoAddress"></span>
+</p>
+
+<p>
+<strong>City:</strong>
+<span id="infoCity"></span>
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📚 Available Exams</h2>
+
+<div id="examsList"></div>
+
+</div>
+
+</div>
+
+
+<!-- ================= ADMIN DASHBOARD ================= -->
+
+<div id="adminDashboardSection" class="section">
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>🛡️ Admin Dashboard</h1>
+
+<p>Student Examination Management System</p>
+
+</div>
+
+<button
+class="btn btn-danger"
+onclick="adminLogout()">
+
+🚪 Logout
+
+</button>
+
+</div>
+
+
+<div class="tabs">
+
+<button
+class="tab-btn active"
+onclick="showAdminTab('students', this)">
+
+👨‍🎓 Students
+
+</button>
+
+<button
+class="tab-btn"
+onclick="showAdminTab('exams', this)">
+
+📝 Exams
+
+</button>
+
+<button
+class="tab-btn"
+onclick="showAdminTab('results', this)">
+
+📊 Results
+
+</button>
+
+</div>
+
+
+<!-- STUDENTS -->
+
+<div id="studentsTab" class="tab-content active">
+
+<div class="card">
+
+<h2>👨‍🎓 Registered Students</h2>
+
+<div id="studentsList"></div>
+
+</div>
+
+</div>
+
+
+<!-- EXAMS -->
+
+<div id="examsTab" class="tab-content">
+
+<div class="card">
+
+<h2>📝 Create Exam</h2>
+
+<div class="form-group">
+
+<label>Exam Title</label>
+
+<input
+type="text"
+id="examTitle"
+placeholder="Example: Cyber Security">
+
+</div>
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea
+id="examDescription"
+placeholder="Enter exam description"></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Duration (Minutes)</label>
+
+<input
+type="number"
+id="examDuration"
+value="30"
+min="1">
+
+</div>
+
+<div class="form-group">
+
+<label>Passing Score (%)</label>
+
+<input
+type="number"
+id="examPassingScore"
+value="60"
+min="1"
+max="100">
+
+</div>
+
+<h3>Questions</h3>
+
+<div id="questionsForm"></div>
+
+<button
+class="btn btn-info"
+onclick="addQuestionForm()">
+
+➕ Add Question
+
+</button>
+
+<button
+class="btn btn-success"
+onclick="saveExam()">
+
+💾 Save Exam
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- RESULTS -->
+
+<div id="resultsTab" class="tab-content">
+
+<div class="card">
+
+<h2>📊 Exam Results</h2>
+
+<div id="resultsList"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= EXAM ================= -->
+
+<div id="examSection" class="section">
+
+<div class="exam-container">
+
+<div class="exam-header">
+
+<div>
+
+<h1 id="examTitleDisplay">
+Examination
+</h1>
+
+</div>
+
+<div class="timer-box">
+
+⏱️ Time
+
+<div id="timer">
+00:00
+</div>
+
+</div>
+
+</div>
+
+<form id="examForm">
+
+<div id="questionsContainer"></div>
+
+<button
+type="submit"
+class="btn btn-success">
+
+✅ Submit Exam
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- ================= RESULT ================= -->
+
+<div id="resultsSection" class="section">
+
+<div class="card">
+
+<h1>📊 Examination Result</h1>
+
+<div class="result-box">
+
+<h2 id="resultExamName"></h2>
+
+<p>
+<strong>Score:</strong>
+<span id="resultScore"></span>
+</p>
+
+<p>
+<strong>Percentage:</strong>
+<span id="resultPercentage"></span>
+</p>
+
+<p>
+<strong>Status:</strong>
+<span id="resultStatus"></span>
+</p>
+
+<p>
+<strong>Date:</strong>
+<span id="resultDate"></span>
+</p>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="goBackToDashboard()">
+
+🏠 Back to Dashboard
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= STUDENT MODAL ================= -->
+
+<div id="studentDetailsModal" class="modal">
+
+<div class="modal-content">
+
+<span
+class="close"
+onclick="closeStudentModal()">
+
+&times;
+
+</span>
+
+<h2>👤 Student Details</h2>
+
+<div id="studentDetailsContent"></div>
+
+</div>
+
+</div>
+
+
+<!-- ================= RESULT MODAL ================= -->
+
+<div id="resultsDetailsModal" class="modal">
+
+<div class="modal-content">
+
+<span
+class="close"
+onclick="closeResultsModal()">
+
+&times;
+
+</span>
+
+<h2>📊 Result Details</h2>
+
+<div id="resultsDetailsContent"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   DATA STORAGE
+===================================================== */
+
+let students =
+JSON.parse(localStorage.getItem("students")) || [];
+
+let exams =
+JSON.parse(localStorage.getItem("exams")) || [];
+
+let currentUser = null;
+let currentAdmin = null;
+let currentExam = null;
+let examTimer = null;
+let questionCount = 0;
+
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+const adminCredentials = {
+
+email: "admin@exam.com",
+
+password: "muhaa12345"
+
+};
+
+
+/* =====================================================
+   UTILITY
+===================================================== */
+
+function toggleSection(sectionId){
+
+document
+.querySelectorAll(".section")
+.forEach(section => {
+
+section.classList.remove("active");
+
+});
+
+const section =
+document.getElementById(sectionId);
+
+if(section){
+
+section.classList.add("active");
+
+}
+
+}
+
+
+function showMessage(message,type="error"){
+
+const div =
+document.createElement("div");
+
+div.className = type;
+
+div.textContent = message;
+
+const activeSection =
+document.querySelector(".section.active");
+
+if(activeSection){
+
+const card =
+activeSection.querySelector(".card") ||
+activeSection.querySelector(".exam-container");
+
+if(card){
+
+card.insertBefore(div,card.firstChild);
+
+setTimeout(() => {
+
+div.remove();
+
+},3000);
+
+}
+
+}
+
+}
+
+
+function formatDate(date){
+
+if(!date) return "";
+
+return new Date(date).toLocaleDateString(
+"en-US",
+{
+year:"numeric",
+month:"long",
+day:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+document
+.getElementById("adminLoginForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const email =
+document.getElementById("adminEmail").value;
+
+const password =
+document.getElementById("adminPassword").value;
+
+
+if(
+email === adminCredentials.email &&
+password === adminCredentials.password
+){
+
+currentAdmin = {
+
+email:email,
+isAdmin:true
+
+};
+
+loadAdminDashboard();
+
+toggleSection("adminDashboardSection");
+
+showMessage(
+"✅ Admin Login Successful!",
+"success"
+);
+
+}else{
+
+showMessage(
+"❌ Invalid Admin Credentials!",
+"error"
+);
+
+}
+
+});
+
+
+/* =====================================================
+   ADMIN DASHBOARD
+===================================================== */
+
+function loadAdminDashboard(){
+
+loadStudentsList();
+
+loadResultsList();
+
+initializeCreateExamForm();
+
+}
+
+
+function showAdminTab(tabName,button){
+
+document
+.querySelectorAll(".tab-content")
+.forEach(tab => {
+
+tab.classList.remove("active");
+
+});
+
+
+document
+.querySelectorAll(".tab-btn")
+.forEach(btn => {
+
+btn.classList.remove("active");
+
+});
+
+
+document
+.getElementById(tabName+"Tab")
+.classList.add("active");
+
+
+button.classList.add("active");
+
+
+if(tabName === "students"){
+
+loadStudentsList();
+
+}
+
+if(tabName === "results"){
+
+loadResultsList();
+
+}
+
+if(tabName === "exams"){
+
+initializeCreateExamForm();
+
+}
+
+}
+
+
+/* =====================================================
+   STUDENTS
+===================================================== */
+
+function loadStudentsList(){
+
+const list =
+document.getElementById("studentsList");
+
+
+if(students.length === 0){
+
+list.innerHTML =
+"<p>No students registered yet.</p>";
+
+return;
+
+}
+
+
+let html = `
+
+<table class="table">
+
+<tr>
+
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Uni Reg No</th>
+<th>Actions</th>
+
+</tr>
+
+`;
+
+
+students.forEach(student => {
+
+html += `
+
+<tr>
+
+<td>
+${student.firstName}
+${student.lastName}
+</td>
+
+<td>
+${student.email}
+</td>
+
+<td>
+${student.phone}
+</td>
+
+<td>
+${student.uniRegNum}
+</td>
+
+<td>
+
+<button
+class="btn btn-info"
+onclick="viewStudentDetails(${student.id})">
+
+View
+
+</button>
+
+<button
+class="btn btn-danger"
+onclick="deleteStudent(${student.id})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+html += "</table>";
+
+list.innerHTML = html;
+
+}
+
+
+function viewStudentDetails(id){
+
+const student =
+students.find(s => s.id === id);
+
+if(!student) return;
+
+
+let html = `
+
+<p>
+<strong>Name:</strong>
+${student.firstName} ${student.lastName}
+</p>
+
+<p>
+<strong>Email:</strong>
+${student.email}
+</p>
+
+<p>
+<strong>Phone:</strong>
+${student.phone}
+</p>
+
+<p>
+<strong>Date of Birth:</strong>
+${student.dateOfBirth}
+</p>
+
+<p>
+<strong>University Reg No:</strong>
+${student.uniRegNum}
+</p>
+
+<p>
+<strong>Address:</strong>
+${student.address}
+</p>
+
+<p>
+<strong>City:</strong>
+${student.city}
+</p>
+
+<p>
+<strong>State:</strong>
+${student.state}
+</p>
+
+`;
+
+document
+.getElementById("studentDetailsContent")
+.innerHTML = html;
+
+document
+.getElementById("studentDetailsModal")
+.classList.add("show");
+
+}
+
+
+function closeStudentModal(){
+
+document
+.getElementById("studentDetailsModal")
+.classList.remove("show");
+
+}
+
+
+function deleteStudent(id){
+
+if(confirm("Delete this student?")){
+
+students =
+students.filter(s => s.id !== id);
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+loadStudentsList();
+
+showMessage(
+"✅ Student deleted!",
+"success"
+);
+
+}
+
+}
+
+
+/* =====================================================
+   CREATE EXAM
+===================================================== */
+
+function initializeCreateExamForm(){
+
+const form =
+document.getElementById("questionsForm");
+
+form.innerHTML = "";
+
+questionCount = 0;
+
+addQuestionForm();
+
+}
+
+
+function addQuestionForm(){
+
+questionCount++;
+
+
+const block =
+document.createElement("div");
+
+block.className = "question-block";
+
+block.id =
+"question-"+questionCount;
+
+
+block.innerHTML = `
+
+<h3>
+Question ${questionCount}
+</h3>
+
+<div class="form-group">
+
+<label>Question</label>
+
+<textarea
+id="questionText${questionCount}"
+placeholder="Enter question">
+</textarea>
+
+</div>
+
+<label>Options</label>
+
+${[1,2,3,4].map(i => `
+
+<div class="option-input">
+
+<input
+type="text"
+id="option${questionCount}_${i}"
+placeholder="Option ${i}">
+
+<input
+type="radio"
+name="correct${questionCount}"
+value="${i-1}">
+
+Correct
+
+</div>
+
+`).join("")}
+
+<button
+class="remove-question"
+type="button"
+onclick="removeQuestion(${questionCount})">
+
+Remove Question
+
+</button>
+
+`;
+
+document
+.getElementById("questionsForm")
+.appendChild(block);
+
+}
+
+
+function removeQuestion(number){
+
+const block =
+document.getElementById(
+"question-"+number
+);
+
+if(block){
+
+block.remove();
+
+}
+
+}
+
+
+/* =====================================================
+   SAVE EXAM
+===================================================== */
+
+function saveExam(){
+
+const title =
+document.getElementById("examTitle").value.trim();
+
+const description =
+document.getElementById("examDescription").value.trim();
+
+const duration =
+parseInt(
+document.getElementById("examDuration").value
+);
+
+const passingScore =
+parseInt(
+document.getElementById("examPassingScore").value
+);
+
+
+if(
+!title ||
+!description ||
+!duration ||
+!passingScore
+){
+
+showMessage(
+"❌ Please fill all exam details!",
+"error"
+);
+
+return;
+
+}
+
+
+const questions = [];
+
+
+const blocks =
+document.querySelectorAll(".question-block");
+
+
+if(blocks.length === 0){
+
+showMessage(
+"❌ Add at least one question!",
+"error"
+);
+
+return;
+
+}
+
+
+let valid = true;
+
+
+blocks.forEach((block,index) => {
+
+const number =
+block.id.replace("question-","");
+
+
+const text =
+document
+.getElementById("questionText"+number)
+.value.trim();
+
+
+if(!text){
+
+showMessage(
+"❌ Enter Question "+(index+1),
+"error"
+);
+
+valid = false;
+
+return;
+
+}
+
+
+const options = [];
+
+
+for(let i=1;i<=4;i++){
+
+const value =
+document
+.getElementById(
+`option${number}_${i}`
+)
+.value.trim();
+
+
+if(!value){
+
+showMessage(
+"❌ Fill all options for Question "+(index+1),
+"error"
+);
+
+valid = false;
+
+return;
+
+}
+
+options.push(value);
+
+}
+
+
+const radio =
+document.querySelector(
+`input[name="correct${number}"]:checked`
+);
+
+
+if(!radio){
+
+showMessage(
+"❌ Select correct answer for Question "+(index+1),
+"error"
+);
+
+valid = false;
+
+return;
+
+}
+
+
+questions.push({
+
+id:index+1,
+
+text:text,
+
+options:options,
+
+correctAnswer:
+parseInt(radio.value)
+
+});
+
+});
+
+
+if(!valid) return;
+
+
+const exam = {
+
+id:Date.now(),
+
+title:title,
+
+description:description,
+
+duration:duration,
+
+passingScore:passingScore,
+
+totalQuestions:questions.length,
+
+questions:questions,
+
+createdDate:
+new Date().toISOString()
+
+};
+
+
+exams.push(exam);
+
+
+localStorage.setItem(
+"exams",
+JSON.stringify(exams)
+);
+
+
+showMessage(
+"✅ Exam created successfully!",
+"success"
+);
+
+
+document
+.getElementById("examTitle")
+.value="";
+
+
+document
+.getElementById("examDescription")
+.value="";
+
+
+initializeCreateExamForm();
+
+}
+
+
+/* =====================================================
+   RESULTS
+===================================================== */
+
+function loadResultsList(){
+
+const list =
+document.getElementById("resultsList");
+
+let results = [];
+
+
+students.forEach(student => {
+
+(student.completedExams || [])
+.forEach(result => {
+
+results.push({
+
+studentName:
+student.firstName+" "+student.lastName,
+
+studentEmail:
+student.email,
+
+...result
+
+});
+
+});
+
+});
+
+
+if(results.length === 0){
+
+list.innerHTML =
+"<p>No exam results yet.</p>";
+
+return;
+
+}
+
+
+let html = `
+
+<table class="table">
+
+<tr>
+
+<th>Student</th>
+<th>Email</th>
+<th>Exam</th>
+<th>Score</th>
+<th>Percentage</th>
+<th>Status</th>
+
+</tr>
+
+`;
+
+
+results.forEach(result => {
+
+html += `
+
+<tr>
+
+<td>${result.studentName}</td>
+
+<td>${result.studentEmail}</td>
+
+<td>${result.examName}</td>
+
+<td>
+${result.score}/${result.totalQuestions}
+</td>
+
+<td>
+${result.percentage}%
+</td>
+
+<td>
+${result.passed ? "✅ PASSED" : "❌ FAILED"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+html += "</table>";
+
+list.innerHTML = html;
+
+}
+
+
+/* =====================================================
+   ADMIN LOGOUT
+===================================================== */
+
+function adminLogout(){
+
+currentAdmin = null;
+
+document
+.getElementById("adminLoginForm")
+.reset();
+
+toggleSection("adminLoginSection");
+
+showMessage(
+"✅ Admin logged out!",
+"success"
+);
+
+}
+
+
+/* =====================================================
+   STUDENT REGISTER
+===================================================== */
+
+document
+.getElementById("registerForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+
+const email =
+document.getElementById("regEmail")
+.value.trim();
+
+
+if(
+students.some(
+student => student.email === email
+)
+){
+
+showMessage(
+"❌ Email already registered!",
+"error"
+);
+
+return;
+
+}
+
+
+const student = {
+
+id:Date.now(),
+
+firstName:
+document.getElementById("firstName").value,
+
+lastName:
+document.getElementById("lastName").value,
+
+email:email,
+
+password:
+document.getElementById("regPassword").value,
+
+phone:
+document.getElementById("phone").value,
+
+dateOfBirth:
+document.getElementById("dob").value,
+
+uniRegNum:
+document.getElementById("uniRegNum").value,
+
+address:
+document.getElementById("address").value,
+
+city:
+document.getElementById("city").value,
+
+state:
+document.getElementById("state").value,
+
+completedExams:[]
+
+};
+
+
+students.push(student);
+
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+
+document
+.getElementById("registerForm")
+.reset();
+
+
+showMessage(
+"✅ Registration successful! Please login.",
+"success"
+);
+
+
+setTimeout(
+() => toggleSection("loginSection"),
+1000
+);
+
+});
+
+
+/* =====================================================
+   STUDENT LOGIN
+===================================================== */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+
+const email =
+document.getElementById("loginEmail")
+.value.trim();
+
+
+const password =
+document.getElementById("loginPassword")
+.value;
+
+
+const student =
+students.find(
+s =>
+s.email === email &&
+s.password === password
+);
+
+
+if(!student){
+
+showMessage(
+"❌ Invalid email or password!",
+"error"
+);
+
+return;
+
+}
+
+
+currentUser = student;
+
+
+loadDashboard();
+
+
+toggleSection("dashboardSection");
+
+
+showMessage(
+"✅ Login successful!",
+"success"
+);
+
+});
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function loadDashboard(){
+
+document
+.getElementById("studentName")
+.textContent =
+currentUser.firstName+" "+
+currentUser.lastName;
+
+
+document
+.getElementById("infoEmail")
+.textContent =
+currentUser.email;
+
+
+document
+.getElementById("infoUniReg")
+.textContent =
+currentUser.uniRegNum;
+
+
+document
+.getElementById("infoPhone")
+.textContent =
+currentUser.phone;
+
+
+document
+.getElementById("infoDOB")
+.textContent =
+currentUser.dateOfBirth;
+
+
+document
+.getElementById("infoAddress")
+.textContent =
+currentUser.address;
+
+
+document
+.getElementById("infoCity")
+.textContent =
+currentUser.city;
+
+
+loadExamsList();
+
+}
+
+
+/* =====================================================
+   EXAM LIST
+===================================================== */
+
+function loadExamsList(){
+
+const list =
+document.getElementById("examsList");
+
+list.innerHTML = "";
+
+
+if(exams.length === 0){
+
+list.innerHTML =
+"<p>No exams available yet.</p>";
+
+return;
+
+}
+
+
+exams.forEach(exam => {
+
+
+const completed =
+(currentUser.completedExams || [])
+.find(
+result =>
+result.examId === exam.id
+);
+
+
+const div =
+document.createElement("div");
+
+div.className =
+"exam-card";
+
+
+div.innerHTML = `
+
+<h3>${exam.title}</h3>
+
+<p>${exam.description}</p>
+
+<p>
+<strong>Duration:</strong>
+${exam.duration} minutes
+</p>
+
+<p>
+<strong>Questions:</strong>
+${exam.totalQuestions}
+</p>
+
+<p>
+<strong>Passing Score:</strong>
+${exam.passingScore}%
+</p>
+
+<span class="status ${completed ? "completed" : "pending"}">
+
+${completed ? "✓ Completed" : "○ Not Attempted"}
+
+</span>
+
+${completed ? `
+
+<p>
+<strong>Your Score:</strong>
+${completed.score}/${completed.totalQuestions}
+(${completed.percentage}%)
+</p>
+
+` : ""}
+
+`;
+
+
+if(!completed){
+
+div.style.cursor="pointer";
+
+div.onclick =
+() => startExam(exam.id);
+
+}
+
+
+list.appendChild(div);
+
+});
+
+}
+
+
+/* =====================================================
+   START EXAM
+===================================================== */
+
+function startExam(examId){
+
+currentExam =
+exams.find(
+exam => exam.id === examId
+);
+
+
+if(!currentExam) return;
+
+
+document
+.getElementById("examTitleDisplay")
+.textContent =
+currentExam.title;
+
+
+loadExamQuestions();
+
+
+toggleSection("examSection");
+
+
+let timeLeft =
+currentExam.duration * 60;
+
+
+updateTimer(timeLeft);
+
+
+clearInterval(examTimer);
+
+
+examTimer =
+setInterval(function(){
+
+timeLeft--;
+
+updateTimer(timeLeft);
+
+
+if(timeLeft <= 0){
+
+clearInterval(examTimer);
+
+submitExam();
+
+alert(
+"⏰ Time ended! Exam submitted automatically."
+);
+
+}
+
+},1000);
+
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function updateTimer(seconds){
+
+const minutes =
+Math.floor(seconds/60);
+
+const secs =
+seconds % 60;
+
+
+document
+.getElementById("timer")
+.textContent =
+String(minutes).padStart(2,"0")
++
+":"
++
+String(secs).padStart(2,"0");
+
+}
+
+
+/* =====================================================
+   LOAD QUESTIONS
+===================================================== */
+
+function loadExamQuestions(){
+
+const container =
+document.getElementById(
+"questionsContainer"
+);
+
+container.innerHTML="";
+
+
+currentExam.questions
+.forEach((question,index)=>{
+
+
+const div =
+document.createElement("div");
+
+div.className="question";
+
+
+let options="";
+
+
+question.options
+.forEach((option,index2)=>{
+
+options += `
+
+<div class="option">
+
+<input
+type="radio"
+name="q${question.id}"
+value="${index2}"
+id="q${question.id}_${index2}">
+
+<label
+for="q${question.id}_${index2}">
+
+${option}
+
+</label>
+
+</div>
+
+`;
+
+});
+
+
+div.innerHTML = `
+
+<div class="question-text">
+
+<span class="question-number">
+
+Question ${index+1}:
+
+</span>
+
+${question.text}
+
+</div>
+
+<div>
+
+${options}
+
+</div>
+
+`;
+
+
+container.appendChild(div);
+
+});
+
+}
+
+
+/* =====================================================
+   SUBMIT EXAM
+===================================================== */
+
+document
+.getElementById("examForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+submitExam();
+
+});
+
+
+function submitExam(){
+
+if(!currentExam) return;
+
+
+clearInterval(examTimer);
+
+
+let score=0;
+
+
+currentExam.questions
+.forEach(question=>{
+
+const selected =
+document.querySelector(
+`input[name="q${question.id}"]:checked`
+);
+
+
+if(
+selected &&
+parseInt(selected.value)
+===
+question.correctAnswer
+){
+
+score++;
+
+}
+
+});
+
+
+const percentage =
+Math.round(
+(score/currentExam.totalQuestions)*100
+);
+
+
+const passed =
+percentage >= currentExam.passingScore;
+
+
+const result = {
+
+examId:
+currentExam.id,
+
+examName:
+currentExam.title,
+
+score:
+score,
+
+totalQuestions:
+currentExam.totalQuestions,
+
+percentage:
+percentage,
+
+passed:
+passed,
+
+dateTaken:
+new Date().toISOString()
+
+};
+
+
+if(!currentUser.completedExams){
+
+currentUser.completedExams=[];
+
+}
+
+
+currentUser.completedExams.push(result);
+
+
+const index =
+students.findIndex(
+s => s.id === currentUser.id
+);
+
+
+students[index]=currentUser;
+
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+
+showResult(result);
+
+}
+
+
+/* =====================================================
+   SHOW RESULT
+===================================================== */
+
+function showResult(result){
+
+document
+.getElementById("resultExamName")
+.textContent =
+result.examName;
+
+
+document
+.getElementById("resultScore")
+.textContent =
+result.score+
+"/"+
+result.totalQuestions;
+
+
+document
+.getElementById("resultPercentage")
+.textContent =
+result.percentage+"%";
+
+
+const status =
+document.getElementById("resultStatus");
+
+
+status.textContent =
+result.passed
+? "✅ PASSED"
+: "❌ FAILED";
+
+
+status.style.color =
+result.passed
+? "green"
+: "red";
+
+
+document
+.getElementById("resultDate")
+.textContent =
+formatDate(result.dateTaken);
+
+
+toggleSection("resultsSection");
+
+}
+
+
+/* =====================================================
+   BACK DASHBOARD
+===================================================== */
+
+function goBackToDashboard(){
+
+clearInterval(examTimer);
+
+loadDashboard();
+
+toggleSection("dashboardSection");
+
+}
+
+
+/* =====================================================
+   STUDENT LOGOUT
+===================================================== */
+
+function logout(){
+
+clearInterval(examTimer);
+
+currentUser=null;
+
+currentExam=null;
+
+document
+.getElementById("loginForm")
+.reset();
+
+toggleSection("loginSection");
+
+showMessage(
+"✅ Logged out successfully!",
+"success"
+);
+
+}
+
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+toggleSection("adminLoginSection");
+
+console.log(
+"Student Exam Platform Loaded"
+);
+
+console.log(
+"Admin Email: admin@exam.com"
+);
+
+console.log(
+"Admin Password: muhaa12345"
+);
+
+}
+);
+
+</script>
 
 </body>
 </html>
